@@ -1,0 +1,43 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="init-location" author="thisisudalov">
+        <createTable tableName="location">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="address" type="varchar"/>
+            <column name="postal_code" type="varchar"/>
+            <column name="country" type="varchar"/>
+            <column name="federal_district" type="varchar"/>
+            <column name="region_type" type="varchar"/>
+            <column name="region" type="varchar"/>
+            <column name="area_type" type="varchar"/>
+            <column name="area" type="varchar"/>
+            <column name="city_type" type="varchar"/>
+            <column name="city" type="varchar"/>
+            <column name="fias_id" type="varchar"/>
+            <column name="capital_marker" type="varchar"/>
+            <column name="foundation_year" type="varchar"/>
+            <column name="geo_lon" type="varchar"/>
+            <column name="fias_level" type="varchar"/>
+            <column name="population" type="varchar"/>
+            <column name="oktmo" type="varchar"/>
+            <column name="geo_lat" type="varchar"/>
+            <column name="kladr_id" type="varchar"/>
+            <column name="tax_office" type="varchar"/>
+            <column name="settlement_type" type="varchar"/>
+            <column name="settlement" type="varchar"/>
+            <column name="timezone" type="varchar"/>
+            <column name="okato" type="varchar"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="location"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

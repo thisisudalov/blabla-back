@@ -16,10 +16,67 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InfoResponse'
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
+
+  /location:
+    get:
+      operationId: find location like
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            minimum: 3
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationResponse'
+
+  /login/request-auth:
+    post:
+      operationId: sendLoginInfo
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+
+  /login/confirm-auth:
+    post:
+      operationId: confirmAuth
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmAuthRequest'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+
+
 
 components:
   schemas:
@@ -29,3 +86,40 @@ components:
           type: string
         message:
           type: string
+
+    LocationResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationItem'
+
+    ConfirmAuthRequest:
+      required:
+        - confirmation_sequence
+      type: object
+      properties:
+        confirmation_sequence:
+          type: string
+
+    LocationItem:
+      properties:
+        id:
+          type: string
+          format: uuid
+        address:
+          type: string
+
+    DefaultResponse:
+      properties:
+        status:
+          $ref: '#/components/schemas/DefaultResponseStatus'
+        descr:
+          type: string
+          description: Описание ответа
+
+    DefaultResponseStatus:
+      enum:
+        - SUCCESS
+        - ERROR
