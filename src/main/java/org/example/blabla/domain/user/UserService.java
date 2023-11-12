@@ -60,6 +60,7 @@ public class UserService {
     public UserPojo updateUser(String phone, UserRequest userRequest) {
         var updatedUser = getUserEntity(phone);
         updatedUser.setUserName(userRequest.getUsername());
+        updatedUser.setNewUser(false);
         return userMapper.map(userRepo.save(updatedUser));
     }
 
