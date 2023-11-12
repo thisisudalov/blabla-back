@@ -90,14 +90,142 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRequest'
+              $ref: '#/components/schemas/UserDto'
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/UserDto'
+    get:
+      operationId: getUserInfo
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+
+  /user/notifications/{phone}:
+    put:
+      operationId: updateUserNotificationsInfo
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNotificationsDto'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotificationsDto'
+    get:
+      operationId: getUserNotificationsInfo
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotificationsDto'
+
+  /user/info/avatar/{phone}:
+    put:
+      operationId: userSetAvatar
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAvatarDto'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAvatarDto'
+    get:
+      operationId: userGetAvatar
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAvatarDto'
+    delete:
+      operationId: userDeleteAvatar
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAvatarDto'
+
+  /user/phone/{phone}:
+    put:
+      operationId: updatePhoneNumber
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
 
 components:
   schemas:
@@ -109,16 +237,34 @@ components:
         message:
           type: string
 
-    UserRequest:
+    UserAvatarDto:
+      properties:
+        data:
+          type: string
+          format: byte
+
+    UserNotificationsDto:
+      properties:
+        email:
+          type: string
+          pattern: ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$
+        newMembers:
+          type: boolean
+        statusChanging:
+          type: boolean
+
+    UserDto:
       properties:
         username:
           type: string
           maxLength: 255
-
-    UserResponse:
-      properties:
-        username:
+        birthday:
           type: string
+          format: date
+          pattern: (0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[1,2])-(19|20)\d{2}
+        aboutMe:
+          type: string
+          maxLength: 1000
 
     LocationResponse:
       type: object

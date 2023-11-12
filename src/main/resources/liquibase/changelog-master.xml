@@ -3,5 +3,6 @@
     <include file="classpath:liquibase/changelogs/1.init-location.xml" relativeToChangelogFile="false" />
     <include file="classpath:liquibase/changelogs/2.init-location-data.xml" relativeToChangelogFile="false" />
     <include file="classpath:liquibase/changelogs/3.init-user.xml" relativeToChangelogFile="false" />
+    <include file="classpath:liquibase/changelogs/4.add-user-fields.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>

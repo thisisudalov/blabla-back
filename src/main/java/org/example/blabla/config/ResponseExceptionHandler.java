@@ -27,7 +27,7 @@ public class ResponseExceptionHandler {
     @ExceptionHandler(value = {
             Exception.class
     })
-    public ResponseEntity<DefaultResponse> handleAuth(Exception e) {
+    public ResponseEntity<DefaultResponse> handle500(Exception e) {
         log.error(ExceptionUtils.getStackTrace(e));
         return ResponseEntity
                 .status(500)

@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add_user_avatar" author="thisisudalov">
+        <createTable tableName="user_avatar">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="data" type="blob"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-user-fields" author="thisisudalov">
+        <addColumn tableName="user">
+            <column name="birthday"
+                    type="timestamp"/>
+            <column name="about_me"
+                    type="varchar(1000)"/>
+            <column name="email"
+                    type="varchar(100)"/>
+            <column name="notifications_on_status_change"
+                    type="boolean"/>
+            <column name="notifications_on_new_member"
+                    type="boolean"/>
+            <column name="avatar_id"
+                    type="uuid">
+                <constraints foreignKeyName="user_avatar_fk"
+                             referencedTableName="avatar"
+                             referencedColumnNames="id"
+                             nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

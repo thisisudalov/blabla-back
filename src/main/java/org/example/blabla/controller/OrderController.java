@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @RestController("/order")
 public class OrderController implements OrderApi {
 
-    @Authenticated
     @Override
+    @Authenticated
     public ResponseEntity<InfoResponse> getOrder() {
         return null;
     }

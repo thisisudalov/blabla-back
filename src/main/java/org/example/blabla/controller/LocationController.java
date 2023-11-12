@@ -15,7 +15,6 @@ public class LocationController implements LocationApi {
     private final LocationService locationService;
 
     @Override
-    @Authenticated
     public ResponseEntity<LocationResponse> findLocationLike(String query) {
         return ResponseEntity.ok(new LocationResponse().items(locationService.findLocationLikeAddress(query)));
     }

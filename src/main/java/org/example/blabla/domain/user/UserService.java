@@ -3,7 +3,8 @@ package org.example.blabla.domain.user;
 import lombok.RequiredArgsConstructor;
 import org.example.blabla.domain.pojo.UserPojo;
 import org.example.blabla.exception.AppException;
-import org.example.blabla.model.UserRequest;
+import org.example.blabla.model.UserDto;
+import org.example.blabla.model.UserNotificationsDto;
 import org.example.blabla.util.PhoneUtil;
 import org.springframework.stereotype.Service;
 
@@ -57,10 +58,20 @@ public class UserService {
         return userMapper.map(createUserEntity(phone, seq));
     }
 
-    public UserPojo updateUser(String phone, UserRequest userRequest) {
+    public UserPojo updateUser(String phone, UserDto userRequest) {
         var updatedUser = getUserEntity(phone);
         updatedUser.setUserName(userRequest.getUsername());
         updatedUser.setNewUser(false);
+        updatedUser.setAboutMe(userRequest.getAboutMe());
+        updatedUser.setBirthday(userRequest.getBirthday());
+        return userMapper.map(userRepo.save(updatedUser));
+    }
+
+    public UserPojo updateUser(String phone, UserNotificationsDto userRequest) {
+        var updatedUser = getUserEntity(phone);
+        updatedUser.setEmail(userRequest.getEmail());
+        updatedUser.setNotificationsOnNewMember(userRequest.getNewMembers());
+        updatedUser.setNotificationOnStatusChange(userRequest.getStatusChanging());
         return userMapper.map(userRepo.save(updatedUser));
     }
 
