@@ -26,4 +26,6 @@ public class UserEntity {
 
     private UUID token;
 
+    private boolean newUser;
+
 }

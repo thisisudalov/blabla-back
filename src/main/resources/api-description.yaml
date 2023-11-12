@@ -35,7 +35,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/LocationResponse'
 
-  /login/request-auth:
+  /login/request-auth/{phone}:
     post:
       operationId: sendLoginInfo
       parameters:
@@ -53,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefaultResponse'
 
-  /login/confirm-auth:
+  /login/confirm-auth/{phone}:
     post:
       operationId: confirmAuth
       parameters:
@@ -74,17 +74,50 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DefaultResponse'
+                $ref: '#/components/schemas/ConfirmAuthResponse'
 
-
+  /user/info/{phone}:
+    put:
+      operationId: updateUserInfo
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            pattern: ^(\+7|8|7)(\d{10})$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
 
 components:
   schemas:
+
     InfoResponse:
       properties:
         time:
           type: string
         message:
+          type: string
+
+    UserRequest:
+      properties:
+        username:
+          type: string
+          maxLength: 255
+
+    UserResponse:
+      properties:
+        username:
           type: string
 
     LocationResponse:
@@ -111,6 +144,14 @@ components:
         address:
           type: string
 
+    ConfirmAuthResponse:
+      properties:
+        status:
+          $ref: '#/components/schemas/AuthResponseStatus'
+        descr:
+          type: string
+          description: Описание ответа
+
     DefaultResponse:
       properties:
         status:
@@ -118,6 +159,12 @@ components:
         descr:
           type: string
           description: Описание ответа
+
+    AuthResponseStatus:
+      enum:
+        - SUCCESS
+        - NEW_USER
+        - WRONG_CODE
 
     DefaultResponseStatus:
       enum:
