@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.blabla.domain.avatar.UserAvatar;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter(AccessLevel.PACKAGE)
-@Table(name = "user")
+@Table(name = "app_user")
 public class UserEntity {
 
     @UuidGenerator
@@ -30,19 +29,18 @@ public class UserEntity {
 
     private boolean newUser;
 
-    private String username;
-
     private String aboutMe;
 
     private String email;
 
     private LocalDate birthday;
 
-    private Boolean notificationOnStatusChange;
+    private Boolean notificationsOnStatusChange;
 
     private Boolean notificationsOnNewMember;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "avatar_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private UserAvatar userAvatar;
 
 }

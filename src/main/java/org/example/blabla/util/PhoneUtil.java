@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 @UtilityClass
 public class PhoneUtil {
 
-    private static final Pattern PHONE_PATTERN = Pattern.compile("^(\\+7|8|7)(\\d{10})$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^(\\+7|8|7)?(\\d{10})$");
 
     public boolean isPhoneNumberValid(String phone) {
         return PHONE_PATTERN.matcher(phone).matches();

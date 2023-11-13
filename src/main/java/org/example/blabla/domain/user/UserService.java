@@ -5,9 +5,14 @@ import org.example.blabla.domain.pojo.UserPojo;
 import org.example.blabla.exception.AppException;
 import org.example.blabla.model.UserDto;
 import org.example.blabla.model.UserNotificationsDto;
+import org.example.blabla.util.AuthUtil;
 import org.example.blabla.util.PhoneUtil;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,8 +76,25 @@ public class UserService {
         var updatedUser = getUserEntity(phone);
         updatedUser.setEmail(userRequest.getEmail());
         updatedUser.setNotificationsOnNewMember(userRequest.getNewMembers());
-        updatedUser.setNotificationOnStatusChange(userRequest.getStatusChanging());
+        updatedUser.setNotificationsOnStatusChange(userRequest.getStatusChanging());
         return userMapper.map(userRepo.save(updatedUser));
+    }
+
+    public ByteArrayResource setAvatar(Resource body) throws IOException {
+        var user = getUserEntity(AuthUtil.getUserFromContext().getPhoneNumber());
+        user.getUserAvatar().setData(body.getContentAsByteArray());
+        return new ByteArrayResource(userRepo.save(user).getUserAvatar().getData());
+    }
+
+    @Transactional
+    public ByteArrayResource getAvatar() {
+        return new ByteArrayResource(getUserEntity(AuthUtil.getUserFromContext().getPhoneNumber()).getUserAvatar().getData());
+    }
+
+    public void deleteAvatar() {
+        var user = getUserEntity(AuthUtil.getUserFromContext().getPhoneNumber());
+        user.getUserAvatar().setData(null);
+        userRepo.save(user);
     }
 
     private UserEntity createUserEntity(String phone, String seq) {
@@ -80,6 +102,7 @@ public class UserService {
         newUser.setPhoneNumber(PhoneUtil.cutPhoneNumber(phone));
         newUser.setLastSentSeq(seq);
         newUser.setNewUser(true);
+        newUser.setUserAvatar(new UserAvatar());
 
         return userRepo.save(newUser);
     }

@@ -6,7 +6,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="init-user" author="thisisudalov">
-        <createTable tableName="user">
+        <createTable tableName="app_user">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false" />
             </column>

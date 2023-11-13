@@ -76,16 +76,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConfirmAuthResponse'
 
-  /user/info/{phone}:
+  /user/info:
     put:
       operationId: updateUserInfo
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       requestBody:
         content:
           application/json:
@@ -100,13 +93,6 @@ paths:
                 $ref: '#/components/schemas/UserDto'
     get:
       operationId: getUserInfo
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       responses:
         200:
           description: Successful operation
@@ -115,16 +101,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserDto'
 
-  /user/notifications/{phone}:
+  /user/notifications:
     put:
       operationId: updateUserNotificationsInfo
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       requestBody:
         content:
           application/json:
@@ -139,13 +118,6 @@ paths:
                 $ref: '#/components/schemas/UserNotificationsDto'
     get:
       operationId: getUserNotificationsInfo
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       responses:
         200:
           description: Successful operation
@@ -154,71 +126,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserNotificationsDto'
 
-  /user/info/avatar/{phone}:
+  /user/info/avatar:
     put:
       operationId: userSetAvatar
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       requestBody:
         content:
-          application/json:
+          image/jpeg:
             schema:
-              $ref: '#/components/schemas/UserAvatarDto'
+              type: string
+              format: binary
       responses:
         200:
           description: Successful operation
           content:
-            application/json:
+            image/jpeg:
               schema:
-                $ref: '#/components/schemas/UserAvatarDto'
+                type: string
+                format: binary
     get:
       operationId: userGetAvatar
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       responses:
         200:
           description: Successful operation
           content:
-            application/json:
+            image/jpeg:
               schema:
-                $ref: '#/components/schemas/UserAvatarDto'
+                type: string
+                format: binary
     delete:
       operationId: userDeleteAvatar
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserAvatarDto'
+                $ref: '#/components/schemas/DefaultResponse'
 
-  /user/phone/{phone}:
+  /user/phone:
     put:
       operationId: updatePhoneNumber
-      parameters:
-        - name: phone
-          in: path
-          required: true
-          schema:
-            pattern: ^(\+7|8|7)(\d{10})$
-            type: string
       responses:
         200:
           description: Successful operation
@@ -236,12 +183,6 @@ components:
           type: string
         message:
           type: string
-
-    UserAvatarDto:
-      properties:
-        data:
-          type: string
-          format: byte
 
     UserNotificationsDto:
       properties:

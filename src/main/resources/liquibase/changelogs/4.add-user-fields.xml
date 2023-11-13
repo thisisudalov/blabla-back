@@ -15,7 +15,7 @@
     </changeSet>
 
     <changeSet id="add-user-fields" author="thisisudalov">
-        <addColumn tableName="user">
+        <addColumn tableName="app_user">
             <column name="birthday"
                     type="timestamp"/>
             <column name="about_me"
@@ -29,7 +29,7 @@
             <column name="avatar_id"
                     type="uuid">
                 <constraints foreignKeyName="user_avatar_fk"
-                             referencedTableName="avatar"
+                             referencedTableName="user_avatar"
                              referencedColumnNames="id"
                              nullable="true"/>
             </column>
