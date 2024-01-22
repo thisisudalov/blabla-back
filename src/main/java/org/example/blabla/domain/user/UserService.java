@@ -44,6 +44,10 @@ public class UserService {
         return userMapper.map(userRepo.save(user));
     }
 
+    public UserPojo getUser() {
+        return getUser(AuthUtil.getUserFromContext().getPhoneNumber());
+    }
+
     public UserPojo getUser(String phone) {
         return userMapper.map(getUserEntity(phone));
     }
@@ -107,15 +111,19 @@ public class UserService {
         return userRepo.save(newUser);
     }
 
-    private UserEntity getUserEntity(String phone) {
+    public UserEntity getUserEntity(String phone) {
         return findOptionalUser(phone).orElseThrow(() -> new AppException("Не найден пользователь"));
     }
 
-    private UserEntity findUserEntity(String phone) {
+    public UserEntity getUserEntity() {
+        return getUserEntity(AuthUtil.getUserFromContext().getPhoneNumber());
+    }
+
+    public UserEntity findUserEntity(String phone) {
         return findOptionalUser(phone).orElse(null);
     }
 
-    private Optional<UserEntity> findOptionalUser(String phone) {
+    public Optional<UserEntity> findOptionalUser(String phone) {
         return userRepo.findByPhoneNumber(PhoneUtil.cutPhoneNumber(phone));
     }
 

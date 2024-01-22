@@ -11,6 +11,7 @@ public interface UserMapper {
 
     UserPojo map(UserEntity source);
 
+    @Mapping(target = "username", source = "userName")
     UserDto map(UserPojo source);
 
     @Mapping(target = "statusChanging", source = "notificationOnStatusChange")

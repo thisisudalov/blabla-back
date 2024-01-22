@@ -6,9 +6,54 @@ info:
 servers:
   - url: http://localhost:8080
 paths:
-  /order:
+  /trip/{tripId}:
     get:
-      operationId: get order
+      operationId: getTripInfo
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripResponseDto'
+
+    put:
+      operationId: updateTrip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTripRequestDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripResponseDto'
+    delete:
+      operationId: deleteTrip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successful operation
@@ -17,9 +62,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/InfoResponse'
 
+  /trip/create:
+    post:
+      operationId: createTrip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTripRequestDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripResponseDto'
+
   /location:
     get:
-      operationId: find location like
+      operationId: findLocationLike
       parameters:
         - name: query
           in: query
@@ -183,6 +244,83 @@ components:
           type: string
         message:
           type: string
+
+    UpdateTripRequestDto:
+      required:
+        - routes
+        - seatsCount
+      properties:
+        seatsCount:
+          type: integer
+        comment:
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TripRouteDto'
+
+    TripRouteDto:
+      required:
+        - id
+        - city
+        - dateTime
+        - cost
+      properties:
+        id:
+          type: string
+          format: uuid
+        city:
+          type: string
+          format: uuid
+        datetime:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        cost:
+          type: integer
+
+    CreateTripRequestDto:
+      properties:
+        seatsCount:
+          type: integer
+        comment:
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateTripRouteRequestDto'
+
+    TripResponseDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+        seatsCount:
+          type: integer
+        comment:
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TripRouteDto'
+
+    CreateTripRouteRequestDto:
+      required:
+        - datetime
+        - city
+        - cost
+      properties:
+        city:
+          type: string
+          format: uuid
+        datetime:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        cost:
+          type: integer
 
     UserNotificationsDto:
       properties:

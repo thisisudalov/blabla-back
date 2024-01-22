@@ -28,4 +28,5 @@ public class AuthController implements LoginApi {
         headers.add("Authorization", AuthUtil.getUserFromContext().getToken().toString());
         return ResponseEntity.ok().headers(headers).body(response);
     }
+
 }

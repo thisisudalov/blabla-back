@@ -1,0 +1,44 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add-trip" author="thisisudalov">
+        <createTable tableName="trip">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="comment" type="varchar"/>
+            <column name="seats" type="integer"/>
+            <column name="created_by_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="trip_user_fk" references="app_user(id)" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="trip"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="add-route" author="thisisudalov">
+        <createTable tableName="route">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="comment" type="varchar"/>
+            <column name="cost" type="integer"/>
+            <column name="date_time" type="timestamp"/>
+            <column name="location_id" type="uuid">
+                    <constraints nullable="false" foreignKeyName="route_location_fk" references="location(id)" />
+            </column>
+            <column name="trip_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="route_trip_fk" references="trip(id)" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="trip"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
